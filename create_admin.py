@@ -7,6 +7,6 @@ django.setup()
 from django.contrib.auth import get_user_model
 User = get_user_model()
 
-User.objects.filter(username='admin').delete()
+User.objects.all().delete()
 User.objects.create_superuser('admin', 'admin@fitmanager.com', 'fitmanager123')
-print('Superusuário criado!')
+print('Superusuário criado com sucesso!')
