@@ -44,7 +44,7 @@ O **FitManager** é um sistema web completo para gestão de agendamentos de pers
 
 | Dashboard | Agendamentos | Relatórios |
 |-----------|-------------|------------|
-| ![dashboard](#) | ![agendamentos](#) | ![relatorios](#) |
+| ![dashboard](https://github.com/user-attachments/assets/e8f380fc-a831-470b-8874-858c98ebb46b) | ![agendamentos](https://github.com/user-attachments/assets/a203616b-6455-49cd-b634-270478a5c96f) | ![relatorios]( https://github.com/user-attachments/assets/9d5a2e3f-8e97-4108-973f-3594e21f12b3) |
 
 ---
 
@@ -147,5 +147,5 @@ O projeto está hospedado no **Railway** com banco de dados MySQL em nuvem.
 
 Feito com 💛 por **Duda**
 
-[![GitHub](https://img.shields.io/badge/GitHub-seu--usuario-181717?style=flat-square&logo=github)](https://github.com/DudaVargz)
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-seu--perfil-0A66C2?style=flat-square&logo=linkedin)](https://www.linkedin.com/in/eduarda-vargas-born-ab11b93aa)
+[![GitHub](https://img.shields.io/badge/GitHub-DudaVargz-181717?style=flat-square&logo=github)](https://github.com/DudaVargz)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-EduardaVargas-0A66C2?style=flat-square&logo=linkedin)](https://www.linkedin.com/in/eduarda-vargas-born-ab11b93aa)
