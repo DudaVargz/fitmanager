@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+{% block page_title %}Dashboard{% endblock %}
+{% block content %}
+
+<div class="page-header">
+    <div>
+        <h2>⚡ Dashboard</h2>
+        <p>Visão geral do dia</p>
+    </div>
+    <a href="{% url 'cadastrar_agendamento' %}" class="btn btn-primary px-4">
+        <i class="bi bi-plus-lg me-1"></i> Novo Agendamento
+    </a>
+</div>
+
+<div class="row g-3 mb-4">
+    <div class="col-md-3">
+        <div class="stat-card">
+            <div class="stat-icon yellow"><i class="bi bi-calendar-check"></i></div>
+            <div>
+                <div class="stat-value">{{ agendamentos|length }}</div>
+                <div class="stat-label">Agendamentos Hoje</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card">
+            <div class="stat-icon dark"><i class="bi bi-people"></i></div>
+            <div>
+                <div class="stat-value">{{ total_clientes }}</div>
+                <div class="stat-label">Clientes Ativos</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card">
+            <div class="stat-icon dark"><i class="bi bi-person-badge"></i></div>
+            <div>
+                <div class="stat-value">{{ total_profissionais }}</div>
+                <div class="stat-label">Profissionais</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card">
+            <div class="stat-icon dark"><i class="bi bi-clipboard2-heart"></i></div>
+            <div>
+                <div class="stat-value">{{ total_servicos }}</div>
+                <div class="stat-label">Serviços</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header d-flex align-items-center justify-content-between">
+        <span><i class="bi bi-calendar-day me-2" style="color: var(--yellow)"></i>Agenda de Hoje</span>
+    </div>
+    {% if agendamentos %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th class="ps-4">Horário</th>
+                <th>Cliente</th>
+                <th>Profissional</th>
+                <th>Serviço</th>
+                <th>Status</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for ag in agendamentos %}
+            <tr>
+                <td class="ps-4 fw-bold" style="color: var(--yellow)">{{ ag.data_hora|date:"H:i" }}</td>
+                <td>{{ ag.cliente }}</td>
+                <td>{{ ag.profissional }}</td>
+                <td>{{ ag.servico }}</td>
+                <td>
+                    <span class="badge badge-{{ ag.status }}">{{ ag.get_status_display }}</span>
+                </td>
+                <td>
+                    <a href="{% url 'editar_agendamento' ag.pk %}" class="btn-icon edit me-1">
+                        <i class="bi bi-pencil"></i>
+                    </a>
+                    <a href="{% url 'cancelar_agendamento' ag.pk %}" class="btn-icon danger"
+                       onclick="return confirm('Cancelar agendamento?')">
+                        <i class="bi bi-x-lg"></i>
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <div class="text-center py-5" style="color: var(--gray-light)">
+        <i class="bi bi-calendar-x" style="font-size: 2.5rem; color: var(--black4)"></i>
+        <p class="mt-3 mb-3">Nenhum agendamento para hoje.</p>
+        <a href="{% url 'cadastrar_agendamento' %}" class="btn btn-primary px-4">+ Criar agendamento</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>{% if profissional %}Editar{% else %}Novo{% endif %} Profissional</h2>
+<form method="post" class="mt-3">
+    {% csrf_token %}
+    <div class="mb-3">
+        <label class="form-label">Nome</label>
+        <input type="text" name="nome" class="form-control" required value="{{ profissional.nome }}">
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Especialidade</label>
+        <input type="text" name="especialidade" class="form-control" required value="{{ profissional.especialidade }}">
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Telefone</label>
+        <input type="text" name="telefone" class="form-control" required value="{{ profissional.telefone }}">
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Email</label>
+        <input type="email" name="email" class="form-control" value="{{ profissional.email }}">
+    </div>
+    <button type="submit" class="btn btn-success">Salvar</button>
+    <a href="{% url 'lista_profissionais' %}" class="btn btn-secondary">Cancelar</a>
+</form>
+{% endblock %}

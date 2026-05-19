@@ -1,0 +1,252 @@
+{% extends 'base.html' %}
+{% block page_title %}Relatórios{% endblock %}
+{% block content %}
+
+<div class="page-header">
+    <div>
+        <h2><i class="bi bi-bar-chart-line me-2" style="color: var(--yellow)"></i>Relatórios</h2>
+        <p>Análise de agendamentos por período</p>
+    </div>
+</div>
+
+<!-- Filtro de período -->
+<div class="card mb-4">
+    <div class="card-body p-3">
+        <form method="get" class="d-flex align-items-end gap-3 flex-wrap">
+            <div>
+                <label class="form-label">Data início</label>
+                <input type="date" name="data_inicio" class="form-control" value="{{ data_inicio }}">
+            </div>
+            <div>
+                <label class="form-label">Data fim</label>
+                <input type="date" name="data_fim" class="form-control" value="{{ data_fim }}">
+            </div>
+            <button type="submit" class="btn btn-primary px-4">
+                <i class="bi bi-search me-1"></i> Filtrar
+            </button>
+            <a href="{% url 'relatorios' %}" class="btn btn-outline-light px-4">
+                <i class="bi bi-arrow-counterclockwise me-1"></i> Resetar
+            </a>
+        </form>
+    </div>
+</div>
+
+<!-- Stat cards -->
+<div class="row g-3 mb-4">
+    <div class="col-md-3">
+        <div class="stat-card">
+            <div class="stat-icon yellow"><i class="bi bi-calendar2-check"></i></div>
+            <div>
+                <div class="stat-value">{{ total }}</div>
+                <div class="stat-label">Total no Período</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card">
+            <div class="stat-icon dark"><i class="bi bi-check-circle"></i></div>
+            <div>
+                <div class="stat-value" style="color: #6bcb77">{{ total_confirmados }}</div>
+                <div class="stat-label">Confirmados</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card">
+            <div class="stat-icon dark"><i class="bi bi-trophy"></i></div>
+            <div>
+                <div class="stat-value" style="color: #a0a0a0">{{ total_concluidos }}</div>
+                <div class="stat-label">Concluídos</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card">
+            <div class="stat-icon dark"><i class="bi bi-x-circle"></i></div>
+            <div>
+                <div class="stat-value" style="color: #ff6b6b">{{ total_cancelados }}</div>
+                <div class="stat-label">Cancelados</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Gráfico de linha — agendamentos por dia -->
+<div class="card mb-4">
+    <div class="card-header">
+        <i class="bi bi-graph-up me-2" style="color: var(--yellow)"></i>Agendamentos por Dia
+    </div>
+    <div class="card-body p-4">
+        {% if dados_dia %}
+        <canvas id="graficoDia" height="90"></canvas>
+        {% else %}
+        <div class="text-center py-4" style="color: var(--gray-light)">
+            <i class="bi bi-bar-chart" style="font-size: 2rem; color: var(--black4)"></i>
+            <p class="mt-2">Nenhum dado no período selecionado.</p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<div class="row g-4">
+    <!-- Gráfico de rosca — por status -->
+    <div class="col-md-4">
+        <div class="card h-100">
+            <div class="card-header">
+                <i class="bi bi-pie-chart me-2" style="color: var(--yellow)"></i>Por Status
+            </div>
+            <div class="card-body p-4 d-flex align-items-center justify-content-center">
+                {% if dados_status %}
+                <canvas id="graficoStatus" style="max-height: 220px"></canvas>
+                {% else %}
+                <p style="color: var(--gray-light)">Sem dados.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Gráfico de barras — por profissional -->
+    <div class="col-md-8">
+        <div class="card h-100">
+            <div class="card-header">
+                <i class="bi bi-person-badge me-2" style="color: var(--yellow)"></i>Por Profissional
+            </div>
+            <div class="card-body p-4">
+                {% if dados_profissional %}
+                <canvas id="graficoProfissional" height="120"></canvas>
+                {% else %}
+                <p style="color: var(--gray-light)">Sem dados.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Gráfico de barras — por serviço -->
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <i class="bi bi-clipboard2-heart me-2" style="color: var(--yellow)"></i>Por Serviço
+            </div>
+            <div class="card-body p-4">
+                {% if dados_servico %}
+                <canvas id="graficoServico" height="80"></canvas>
+                {% else %}
+                <p style="color: var(--gray-light)">Sem dados.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const yellow = '#F5E642';
+    const yellowSoft = 'rgba(245, 230, 66, 0.15)';
+    const gridColor = 'rgba(255,255,255,0.06)';
+    const textColor = '#a0a0a0';
+
+    Chart.defaults.color = textColor;
+    Chart.defaults.borderColor = gridColor;
+
+    // Gráfico por dia
+    {% if dados_dia %}
+    new Chart(document.getElementById('graficoDia'), {
+        type: 'line',
+        data: {
+            labels: {{ labels_dia|safe }},
+            datasets: [{
+                label: 'Agendamentos',
+                data: {{ dados_dia|safe }},
+                borderColor: yellow,
+                backgroundColor: yellowSoft,
+                borderWidth: 2.5,
+                pointBackgroundColor: yellow,
+                pointRadius: 4,
+                fill: true,
+                tension: 0.4,
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: { legend: { display: false } },
+            scales: {
+                y: { beginAtZero: true, ticks: { stepSize: 1 } }
+            }
+        }
+    });
+    {% endif %}
+
+    // Gráfico por status
+    {% if dados_status %}
+    new Chart(document.getElementById('graficoStatus'), {
+        type: 'doughnut',
+        data: {
+            labels: {{ labels_status|safe }},
+            datasets: [{
+                data: {{ dados_status|safe }},
+                backgroundColor: [
+                    'rgba(245,230,66,0.8)',
+                    'rgba(107,203,119,0.8)',
+                    'rgba(160,160,160,0.8)',
+                    'rgba(255,107,107,0.8)',
+                ],
+                borderWidth: 0,
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { position: 'bottom', labels: { padding: 16, font: { size: 12 } } }
+            },
+            cutout: '65%',
+        }
+    });
+    {% endif %}
+
+    // Gráfico por profissional
+    {% if dados_profissional %}
+    new Chart(document.getElementById('graficoProfissional'), {
+        type: 'bar',
+        data: {
+            labels: {{ labels_profissional|safe }},
+            datasets: [{
+                label: 'Agendamentos',
+                data: {{ dados_profissional|safe }},
+                backgroundColor: yellowSoft,
+                borderColor: yellow,
+                borderWidth: 1.5,
+                borderRadius: 6,
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: { legend: { display: false } },
+            scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } }
+        }
+    });
+    {% endif %}
+
+    // Gráfico por serviço
+    {% if dados_servico %}
+    new Chart(document.getElementById('graficoServico'), {
+        type: 'bar',
+        data: {
+            labels: {{ labels_servico|safe }},
+            datasets: [{
+                label: 'Agendamentos',
+                data: {{ dados_servico|safe }},
+                backgroundColor: 'rgba(107,203,119,0.15)',
+                borderColor: '#6bcb77',
+                borderWidth: 1.5,
+                borderRadius: 6,
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: { legend: { display: false } },
+            scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } }
+        }
+    });
+    {% endif %}
+</script>
+{% endblock %}
