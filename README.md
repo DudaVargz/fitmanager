@@ -40,11 +40,9 @@ O **FitManager** é um sistema web completo para gestão de agendamentos de pers
 
 ## 🖼️ Screenshots
 
-> _Adicione prints do sistema aqui_
-
 | Dashboard | Agendamentos | Relatórios |
 |-----------|-------------|------------|
-| ![dashboard](https://github.com/user-attachments/assets/e8f380fc-a831-470b-8874-858c98ebb46b) | ![agendamentos](https://github.com/user-attachments/assets/a203616b-6455-49cd-b634-270478a5c96f) | ![relatorios]( https://github.com/user-attachments/assets/9d5a2e3f-8e97-4108-973f-3594e21f12b3) |
+| ![dashboard](https://github.com/user-attachments/assets/e8f380fc-a831-470b-8874-858c98ebb46b) | ![agendamentos](https://github.com/user-attachments/assets/a203616b-6455-49cd-b634-270478a5c96f) | ![relatorios](https://github.com/user-attachments/assets/9d5a2e3f-8e97-4108-973f-3594e21f12b3) |
 
 ---
 
