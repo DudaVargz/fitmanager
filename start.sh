@@ -1,0 +1,5 @@
+#!/bin/bash
+python manage.py collectstatic --noinput
+python manage.py migrate
+python create_admin.py
+gunicorn meu_projeto.wsgi --log-file -
