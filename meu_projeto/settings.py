@@ -1,14 +1,18 @@
 from pathlib import Path
 from decouple import config
 import dj_database_url
-import os
-
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', default=False, cast=bool)
-ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost').split(',')
+
+ALLOWED_HOSTS = ['*']
+
+CSRF_TRUSTED_ORIGINS = [
+    'https://fitmanager-production-0cff.up.railway.app',
+    'http://fitmanager-production-0cff.up.railway.app',
+]
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -91,5 +95,3 @@ MESSAGE_TAGS = {
     messages.WARNING: 'warning',
     messages.ERROR: 'danger',
 }
-
-CSRF_TRUSTED_ORIGINS = ['https://fitmanager-production-0cff.up.railway.app']
