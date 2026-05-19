@@ -92,8 +92,4 @@ MESSAGE_TAGS = {
     messages.ERROR: 'danger',
 }
 
-CSRF_TRUSTED_ORIGINS = [
-    'https://' + host 
-    for host in config('ALLOWED_HOSTS', default='localhost').split(',')
-    if host != 'localhost' and host != '127.0.0.1'
-]
+CSRF_TRUSTED_ORIGINS = ['https://fitmanager-production-0cff.up.railway.app']
