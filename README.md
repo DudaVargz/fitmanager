@@ -114,30 +114,32 @@ Acesse: `http://127.0.0.1:8000`
 
 ---
 
-## 📁 Estrutura do Projeto
+## 📁 Estrutura
+
+```
 fitmanager/
-├── meu_projeto/          # Configurações do Django
-├── clientes/             # App de clientes
-├── profissionais/        # App de profissionais
-├── servicos/             # App de serviços
-├── agendamentos/         # App principal (dashboard, relatórios, PDF)
-├── templates/            # Templates HTML
-│   ├── base.html         # Layout base com sidebar
-│   ├── auth/             # Login
-│   ├── agendamentos/     # Dashboard, lista, formulários
+├── meu_projeto/       # Configurações Django
+├── clientes/          # App de clientes
+├── profissionais/     # App de profissionais
+├── servicos/          # App de serviços
+├── agendamentos/      # Dashboard, agenda, relatórios, PDF
+├── templates/
+│   ├── base.html
+│   ├── auth/
+│   ├── agendamentos/
 │   ├── clientes/
 │   ├── profissionais/
 │   └── servicos/
+├── build.sh
 ├── requirements.txt
-├── Procfile
 └── manage.py
----
+```
 
 ## 🚀 Deploy
 
 O projeto está hospedado no **Railway** com banco de dados MySQL em nuvem.
 
-🔗 **Link:** [fitmanager.railway.app](#)
+🔗 **Link:** [fitmanager.railway.app](https://fitmanager-erzl.onrender.com)
 
 ---
 
