@@ -4,7 +4,7 @@
     "builder": "NIXPACKS"
   },
   "deploy": {
-    "startCommand": "python manage.py migrate && gunicorn meu_projeto.wsgi --log-file -",
+    "startCommand": "python manage.py migrate && python create_admin.py && gunicorn meu_projeto.wsgi --log-file -",
     "healthcheckPath": "/login/",
     "restartPolicyType": "ON_FAILURE"
   }
